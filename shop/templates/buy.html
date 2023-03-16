@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+  <h1>Оформление заказа</h1>
+  <form method="post">
+      {% csrf_token %}
+          <div class="form-group">
+      <label for="name">ФИО:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" id="email" name="email" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+      <label for="phone">Номер телефона:</label>
+      <input type="number" class="form-control" name="phone" placeholder="Enter phone number">
+    </div>
+    <button type="submit" class="btn btn-primary">Купить</button>
+  </form>
+</div>
+
+{% endblock %}

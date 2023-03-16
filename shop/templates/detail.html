@@ -1,0 +1,41 @@
+{#{% extends "base.html" %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{##}
+{#<div class="bg-success p-2 text-dark bg-opacity-10">#}
+{##}
+{#  <h3 style="text-align: center">Корзина</h3>#}
+{#</div>#}
+{#<table class="cart" style="margin-top: 20px">#}
+{#  {% for item in cart %}#}
+{#  {% with shoes=item.shoes %}#}
+{#  <tr>#}
+{#    <td>#}
+{#      <a href="{{ s.get_absolute_url }}">#}
+{#        <img src="{{ shoes.image.url }}" width="250">#}
+{#      </a>#}
+{#    </td>#}
+{#    <td>{{ shoes.name }}</td>#}
+{#    <td>#}
+{#      <form action="{% url "cart:cart_add" shoes.id %}" method="post">#}
+{#      {{ item.update_quantity_form.quantity }}#}
+{#      {{ item.update_quantity_form.update }}#}
+{#      <input type="submit" class="ddd" value="Обновить" style="color: #E5E5E5; background-color: #0C7264; width: 170px; height: 46px; border-radius: 10px">#}
+{#      {% csrf_token %}#}
+{#      </form>#}
+{#    </td>#}
+{#    <td><a style="text-decoration: none; font-size: 20px" href="{% url "cart:cart_remove" shoes.id%}">Убрать</a></td>#}
+{#    <td class="num">{{ item.total_price }} тг</td>#}
+{#  </tr>#}
+{#  {% endwith %}#}
+{#  {% endfor %}#}
+{#  </tbody>#}
+{#</table>#}
+{#<p class="text-right">#}
+{#  <a style="text-decoration: none; font-size: 20px" href="{% url "shoes_list" %}" class="button light"#}
+{#  >Продолжить</a>#}
+{#<hr>#}
+{##}
+{#<a style="text-decoration: none; font-size: 20px" href="{% url "orders:order_create" %}" class="button">Оформить заказ</a>#}
+{#</p>#}
+{#{% endblock %}#}

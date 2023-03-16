@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="container mt-5 pt-5">
+      <h1>Добро пожаловать в наш магазин обуви!</h1>
+      <h5>Найди свою идеальную обувь вместе с нами.</h5>
+
+      <div class="row">
+          {% for s in shoes %}
+        <div class="col-md-4">
+          <div class="card m-4">
+            <img src="{{ s.image.url }}" alt="{{ shoes.title }}">
+
+            <div class="card-body">
+              <h5 class="card-title">{{ s.title }}</h5>
+                <h5 class="card-title">{{ s.price }}</h5>
+              <p class="card-text">
+                  {{ s.description }}
+                    {% if user.is_authenticated %}
+                  <a href="{% url 'add_to_cart' s.id %}" class="btn btn-primary">Добавить в корзину</a>
+                {% else %}
+                  <a href="{% url 'login' %}" class="btn btn-primary">Добавить в корзину</a>
+                  {% endif %}
+            </div>
+          </div>
+        </div>
+
+          {% endfor %}
+      </div>
+    </div>
+
+{% endblock %}
