@@ -9,8 +9,11 @@
           {% for s in shoes %}
         <div class="col-md-4">
           <div class="card m-4">
+          {% if s.image %}
             <img src="{{ s.image.url }}" alt="{{ shoes.title }}">
-
+          {% else %}
+              <img src="https://ecco.kz/images/eshop/img/jpg/bigw/205613_50696.jpg" alt="No photo">
+          {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ s.title }}</h5>
                 <h5 class="card-title">{{ s.price }}</h5>
