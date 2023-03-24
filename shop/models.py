@@ -18,7 +18,7 @@ class Shoes(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
-    image = models.ImageField(upload_to='img/', blank=True, null=True)
+    image = models.ImageField(upload_to='media/shoes/', blank=True, null=True)
     price = models.IntegerField(default=0)
     available = models.BooleanField(default=True)
 
