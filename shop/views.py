@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from .cart import Cart
 from .forms import CartAddShoesForm
 from django.contrib.auth import authenticate, login
-from shop.models import Shoes, Order
+from shop.models import Clothes, Order
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Cart
@@ -48,14 +48,14 @@ def register(request):
 
 
 def products(request):
-    shoes = Shoes.objects.all()
+    shoes = Clothes.objects.all()
     return render(request, "products.html", context={"shoes": shoes})
 
 
 
 @login_required
 def add_to_cart(request, id):
-    shoe = get_object_or_404(Shoes, pk=id)
+    shoe = get_object_or_404(Clothes, pk=id)
     cart, created = Cart.objects.get_or_create(user=request.user)
 
     cart.shoes.add(shoe)
@@ -64,7 +64,7 @@ def add_to_cart(request, id):
 
 @login_required
 def remove_from_cart(request, id):
-    shoe = get_object_or_404(Shoes, pk=id)
+    shoe = get_object_or_404(Clothes, pk=id)
     cart = get_object_or_404(Cart, user=request.user)
     cart.shoes.remove(shoe)
     messages.success(request, f"{shoe.title} has been removed from your cart.")
@@ -76,7 +76,7 @@ def cart(request):
     if request.method == 'POST':
         shoe_id = request.POST.get('id')
         if shoe_id:
-            shoe = get_object_or_404(Shoes, pk=shoe_id)
+            shoe = get_object_or_404(Clothes, pk=shoe_id)
             cart.shoes.remove(shoe)
             cart.save()
 

@@ -14,7 +14,7 @@ class Category(models.Model):
         return self.title
 
 
-class Shoes(models.Model):
+class Clothes(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
@@ -23,8 +23,8 @@ class Shoes(models.Model):
     available = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = 'shoes'
-        verbose_name_plural = 'shoes'
+        verbose_name = 'clothe'
+        verbose_name_plural = 'clothes'
 
     def __str__(self):
         return self.title
@@ -32,7 +32,7 @@ class Shoes(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    shoes = models.ManyToManyField(Shoes, blank=True)
+    shoes = models.ManyToManyField(Clothes, blank=True)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)

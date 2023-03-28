@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from shop.models import Shoes
+from shop.models import Clothes
 
 
 class Cart(object):
@@ -37,7 +37,7 @@ class Cart(object):
     def __iter__(self):
         shoes_ids = self.cart.keys()
         # Получаем объекты модели Product и передаем их в корзину.
-        shoes = Shoes.objects.filter(id__in=shoes_ids)
+        shoes = Clothes.objects.filter(id__in=shoes_ids)
         cart = self.cart.copy()
         for s in shoes:
             cart[str(s.id)]['product'] = s

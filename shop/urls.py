@@ -6,10 +6,10 @@ urlpatterns = [
     path('logout/', user_logout, name='logout'),
     path('register/', register, name='register'),
     path('', products, name='products'),
-    path('add_to_cart/<int:id>/', add_to_cart, name='add_to_cart'),
-    path('remove_from_cart/<int:id>/', remove_from_cart, name='remove_from_cart'),
-    path('cart/', cart, name='cart'),
-    path('cart/buy/', buy, name='buy'),
-    path("processed/", processed, name="processed"),
+    # path('add_to_cart/<int:id>/', add_to_cart, name='add_to_cart'),
+    # path('remove_from_cart/<int:id>/', remove_from_cart, name='remove_from_cart'),
+    # path('cart/', cart, name='cart'),
+    # path('cart/buy/', buy, name='buy'),
+    # path("processed/", processed, name="processed"),
     path("about/", about, name="about")
 ]
