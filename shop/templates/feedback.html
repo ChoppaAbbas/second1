@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Ваш отзыв</h1>
+
+    <h5>Для нас важен каждый отзыв!</h5>
+    <form method="post">
+      {% csrf_token %}
+          <div class="form-group">
+          <label for="feedback">Ваш отзыв</label>
+          <input type="text" class="form-control" id="feedback" name="feedback" placeholder="Enter text">
+          <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+  </div>
+{% endblock %}

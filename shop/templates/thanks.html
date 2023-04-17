@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1>Ваш отзыв принят!</h1>
+    <p>Спасибо за ваш отзыв. Мы ценим ваш вклад и будем использовать его для улучшения нашего выбора одежды.</p>
+    <a href="{% url 'products' %}" class="btn btn-primary">Вернуться к главной странице</a>
+  </div>
+{% endblock %}
