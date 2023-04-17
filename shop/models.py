@@ -14,6 +14,7 @@ class Category(models.Model):
         return self.title
 
 
+
 class Clothes(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
@@ -21,7 +22,7 @@ class Clothes(models.Model):
     image = models.ImageField(upload_to='media/shoes/', blank=True, null=True)
     price = models.IntegerField(default=0)
     available = models.BooleanField(default=True)
-
+    
     class Meta:
         verbose_name = 'clothe'
         verbose_name_plural = 'clothes'
@@ -29,6 +30,9 @@ class Clothes(models.Model):
     def __str__(self):
         return self.title
 
+class Feedback(models.Model):
+    text = models.TextField(null=True, blank=True, default="")
+    clothes = models.ForeignKey(Clothes, on_delete=models.CASCADE)
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -39,6 +43,11 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    def calculate_total(self):
+        total = sum(shoe.price for shoe in self.shoes.all())
+        self.total = total
+        self.save()
 
 
 class Order(models.Model):

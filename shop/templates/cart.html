@@ -1,40 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="mt-5 pt-5">
-    <h1>Моя корзина</h1>
-    <table class="table">
-      {% if cart.shoes.all %}
-    <ul>
-      {% for item in cart.shoes.all %}
-        <li>{{ item.name }} - ${{ item.price }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Your cart is empty.</p>
-  {% endif %}
-        <thead>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 animate__animated animate__fadeIn">
+      <div class="mt-5 pt-5">
+        <h2 class="mb-4">Моя корзина</h2>
+        {% if cart %}
+        <p><strong>Total price: <strong style="color: blue">{{ cart.total }} тг</strong></strong></p>
+        <table class="table">
+          <thead>
             <tr>
-                <th>Выбранные обуви</th>
-                <th>Цены</th>
+              <th>Выбранные обуви</th>
+              <th>Цены</th>
+              <th></th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for shoe in cart.shoes.all %}
-                <tr>
-                    <td>{{ shoe.title }}</td>
-                    <td>{{ shoe.price }}
-                        <form action="{% url 'remove_from_cart' shoe.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Remove from Cart</button>
-                      </form>
-                    </td>
-
-                </tr>
+            <tr>
+              <td>{{ shoe.title }}</td>
+              <td>{{ shoe.price }}</td>
+              <td>
+                <form action="{% url 'remove_from_cart' shoe.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Remove from Cart</button>
+                </form>
+              </td>
+            </tr>
             {% endfor %}
-
-        </tbody>
-    </table>
-                <button style="margin-left:30px; border-bottom-color: #1c606a; width: 130px; height: 50px; font-size: 25px"><a style="" href="{{ 'buy' }}">Купить</a></button>
+          </tbody>
+        </table>
+        <button class="btn btn-primary" style="margin-left:30px; width: 130px; height: 50px; font-size: 20px">
+          <a href="{{ 'buy' }}" style="color: white">Купить</a>
+        </button>
+        {% else %}
+        <p>Корзина пуста.</p>
+        <button class="btn btn-primary" style="margin-left:30px; width: 200px; height: 50px; font-size: 20px">
+          <a href="{% url 'products' %}" style="color: white;">Вернуться к товарам</a>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  .animate__animated {
+    animation-duration: 1s;
+  }
+
+  .animate__fadeIn {
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+</style>
 {% endblock %}
