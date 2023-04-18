@@ -32,7 +32,7 @@ class Clothes(models.Model):
 
 class Feedback(models.Model):
     text = models.TextField(null=True, blank=True, default="")
-    clothes = models.ForeignKey(Clothes, on_delete=models.CASCADE)
+    clothes = models.ForeignKey(Clothes, on_delete=models.CASCADE, blank=True, null=True)
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
