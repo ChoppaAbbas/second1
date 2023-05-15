@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_POST
 from .forms import CartAddShoesForm
 from django.contrib.auth import authenticate, login
-from shop.models import Clothes, Order
+from shop.models import Clothes, Order, Category
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Cart, Feedback
@@ -44,19 +44,21 @@ def register(request):
         return redirect('products')
     else:
         return render(request, 'register.html')
-    
-from django.shortcuts import render
-from .models import Clothes
-
 
 
 def clothes(request):
     results = request.GET.get('q')
+    category = request.GET.get('category')
+
     if results:
-        clothes = Clothes.objects.filter(Q(title__icontains=results) | Q(description__icontains=results))
+        clothes = Clothes.objects.filter(Q(title__icontains=results) | Q(description__icontains=results) | Q(price__icontains=results) | Q(region__icontains=results) | Q(phone_number__icontains=results))
     else:
         clothes = Clothes.objects.all()
-    return render(request, 'products.html', {'results': results, 'clothes': clothes})
+    if category:
+        clothes = clothes.filter(category__id=category)
+    categories = Category.objects.all()
+    return render(request, 'products.html', {'results': results, 'clothes': clothes, 'categories': categories})
+
 
 def calculate_total(cart):
     total = 0
@@ -71,7 +73,7 @@ def add_to_cart(request, id):
     clothes = get_object_or_404(Clothes, pk=id)
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart.shoes.add(clothes)
-    cart.calculate_total() # call the calculate_total method to update the total price
+    cart.calculate_total() 
     return redirect('cart')
 
 @login_required
@@ -79,7 +81,7 @@ def remove_from_cart(request, id):
     shoe = get_object_or_404(Clothes, pk=id)
     cart = get_object_or_404(Cart, user=request.user)
     cart.shoes.remove(shoe)
-    cart.calculate_total() # call the calculate_total method to update the total price
+    cart.calculate_total() 
     messages.success(request, f"{shoe.title} has been removed from your cart.")
     return redirect('cart')
     
@@ -92,7 +94,7 @@ def cart(request):
         if clothes_id:
             shoe = get_object_or_404(Clothes, pk=clothes_id)
             cart.shoes.remove(shoe)
-            cart.calculate_total() # call the calculate_total method to update the total price
+            cart.calculate_total() 
     context = {
         'cart': cart,
     }
@@ -138,7 +140,34 @@ def add_clothes(request):
         description = request.POST.get("description")
         price = request.POST.get("price")
         image = request.FILES.get("image")
-        clothes = Clothes.objects.create(title=title, description=description, price=price, image=image)
+        phone_number = request.POST.get("phone_number")
+        region = request.POST.get("region")
+        archived = request.POST.get("archived") == "on"
+        category_id = request.POST.get("category")
+        new_category = request.POST.get("new_category")  
+        
+        clothes = Clothes.objects.create(
+            title=title,
+            description=description,
+            price=price,
+            image=image,
+            phone_number=phone_number,
+            region=region,
+            archived=archived
+        )
+        
+        if category_id:
+            category = Category.objects.get(id=category_id)
+            clothes.category = category
+        elif new_category:
+            category = Category.objects.create(title=new_category)
+            clothes.category = category
+        
         clothes.save()
+        
         return redirect("products")
-    return render(request, "add_clothes.html")
+    
+    categories = Category.objects.all()
+    
+    return render(request, "add_clothes.html", {"categories": categories})
+

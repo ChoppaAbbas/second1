@@ -11,7 +11,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.title
+        return self .title
 
 
 
@@ -22,7 +22,9 @@ class Clothes(models.Model):
     image = models.ImageField(upload_to='media/shoes/', blank=True, null=True)
     price = models.IntegerField(default=0)
     available = models.BooleanField(default=True)
-    
+    phone_number = models.CharField(max_length=20) 
+    region = models.CharField(max_length=100)  
+    archived = models.BooleanField(default=False)  
     class Meta:
         verbose_name = 'clothe'
         verbose_name_plural = 'clothes'
